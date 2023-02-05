@@ -1,9 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from '@assets/react-logo.svg'
 
-import getPdfText from "@pages/content/index"
 function Popup() {
   const [count, setCount] = useState(0)
+
+  const handleClick = () => {
+    // use executeScript
+
+    (async () => {
+      const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+      const response = await chrome.tabs.sendMessage(tab.id as number, { message: "get_pdf" });
+      console.log('response');
+      console.log(response);
+    })()
+
+
+
+  }
+
 
   return (
     <div className="App flex-col justify-between">
@@ -13,8 +27,8 @@ function Popup() {
         </h1>
 
         <div className="card">
-          <button onClick={() => getPdfText(window.location.href)}>
-            Summarize PDF
+          <button onClick={handleClick}>
+            Summarize
           </button>
           <p>
             Edit <code>src/App.tsx</code> and save to test HMR

@@ -14,5 +14,14 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 
 });
-
+// context menu to send message to content script
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    console.log('context menu clicked')
+    if (info.menuItemId === '1') {
+        (async () => {
+            const response = chrome.tabs.sendMessage(tab.id, { message: 'get_text_selection' })
+            console.log(response)
+        })()
+    }
+});
 export { }
